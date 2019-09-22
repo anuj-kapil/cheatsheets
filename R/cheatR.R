@@ -82,6 +82,13 @@ dt_r[name=='Jon',.(name, id)]
 ## Where clause
 ## group by
 ## order by
+
+weight <- c(60,65,50,70,75)
+dt_r <- cbind(dt_r, weight)
+
+gender <- c('F','F','F','M','M')
+dt_r <- cbind(dt_r, gender)
+
 dt_r[weight>60, .N, by =  gender][order(-N)]
 
 # Data Transformation
@@ -151,11 +158,6 @@ as.numeric()
 
 # Data Visualization
 
-weight <- c(60,65,50,70,75)
-dt_r <- cbind(dt_r, weight)
-
-gender <- c('F','F','F','M','M')
-dt_r <- cbind(dt_r, gender)
 
 ggplot(dt_r, aes(x=height, y=weight, color = gender))+
   geom_point()

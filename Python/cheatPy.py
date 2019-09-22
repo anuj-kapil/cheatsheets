@@ -82,6 +82,36 @@ dt_r.describe(include = 'all')
 dt_r[~dt_r['name'].isnull()]
 dt_r.isnull().values.any()
 
+## Removing Duplicates
+dt_r = dt_r.drop_duplicates()
+
+## Select rows/columns
+### Rows
+dt_r.iloc[0:2]
+dt_r.loc[dt_r['name']=='Jon']
+
+### Columns
+dt_r.iloc[:,0:2]
+dt_r.loc[:,['name','id']]
+
+### Rows & Columns
+dt_r.loc[dt_r['name']=='Jon', ['name','id']]
+
+## Where clause
+## group by
+## order by
+weight = {'weight':[75,60,70,65,50]}
+gender = {'gender':['M','F','M','F','F']}
+dt_r = dt_r.reset_index(drop=True)
+
+dt_r = pd.concat([dt_r, pd.DataFrame(weight)], axis=1)
+dt_r = pd.concat([dt_r, pd.DataFrame(gender)], axis=1)
+
+
+dt_r[dt_r['weight']>60].groupby(['gender']).count()
+
+# Drop columns
+dt_r = dt_r.drop(columns=['weight','gender'])
 
 area = 8.0
 if(area < 9) :
