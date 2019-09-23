@@ -37,7 +37,7 @@ if (!dir.exists(output_dir)){
 fwrite(dt,'Data/employees.csv')
 
 dt_r <- fread('Data/employees.csv')
-dt_r <- dt
+
 # Parsing web-pages
 
 # Data Binding
@@ -83,10 +83,10 @@ dt_r[name=='Jon',.(name, id)]
 ## group by
 ## order by
 
-weight <- c(60,65,50,70,75)
+weight <- c(75,60,70,65,50)
 dt_r <- cbind(dt_r, weight)
 
-gender <- c('F','F','F','M','M')
+gender <- c('M','F','M','F','F')
 dt_r <- cbind(dt_r, gender)
 
 dt_r[weight>60, .N, by =  gender][order(-N)]
