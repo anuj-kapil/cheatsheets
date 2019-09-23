@@ -143,10 +143,16 @@ dt_r['height_inch'] = dt_r['height']*39.37
 dt_r['height_inch'] = dt_r.height*39.37
 
 # Long form
+dt_r_l = pd.melt(dt_r, id_vars=['name'], value_vars=['id','age','height','weight'])
 
+# Wide form
+#pd.crosstab(index=dt_r_l['name'], columns=dt_r_l['variable'], values=dt_r_l['value'], aggfunc='first').reset_index()
+dt_r_w = dt_r_l.pivot_table(values='value', index='name', columns='variable').reset_index()
 
+#Data Join and Rolling Join
 
 address_dt = pd.DataFrame()
+
 address_id = [1,2,3,4,5]
 address_array = ['1640 Riverside Drive, Hill Valley, California'
                    ,'344 Clinton St., Apt. 3B, Metropolis, USA'
@@ -159,6 +165,15 @@ address_dt['address'] = address_array
 
 address_id = [1,2,3,5,5]
 dt_r['address_id'] = address_id
+
+# RIGHT JOIN
+dt_r.merge(address_dt, how='right')
+
+# INNNER JOIN
+dt_r.merge(address_dt)
+
+# LEFT JOIN
+dt_r.merge(address_dt, how='left')
 
 area = 8.0
 if(area < 9) :

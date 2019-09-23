@@ -102,12 +102,12 @@ dt_r[, height_inch:=height*39.37]
 dt_r[, height_inch:= NULL]
 
 # Long form
-
-dt_r <- melt(dt_r, id.vars = 'name', measure.vars = c('id','age','height','height_inch'))
+dt_r_l <- melt(dt_r, id.vars = 'name', measure.vars = c('id','age','height','weight'))
 
 # Wide form
-dt_r <- dcast(dt_r, name~variable, value.var = 'value')
+dt_r_w <- dcast(dt_r_l, name~variable, value.var = 'value')
 
+summary(dt_r_w)
 #Data Join and Rolling Join
 
 address_id <- c(1,2,3,4,5)
@@ -125,16 +125,19 @@ dt_r <- cbind(dt_r, address_id)
 setkey(dt_r, address_id)
 setkey(address_dt, address_id)
 
+# RIGHT JOIN
 dt_r[address_dt]
 merge(dt_r,address_dt, all.x=TRUE)
 
+# INNNER JOIN
 dt_r[address_dt,  nomatch=0]
+# LEFT JOIN
 address_dt[dt_r]
 
 # String Manipulation
+dt_r[name%like%'o']
 str_detect()
 dt_r[,.(name, o_exists = str_detect(name, 'o'))]
-
 
 dt_r[,.(name, first_letter = str_sub(name, 1,1), last_letter = str_sub(name, -1,-1))]
 
