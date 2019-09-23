@@ -51,6 +51,7 @@ else:
     print("Dir already exists!")
 
 
+
 df.to_csv('Data/employees.csv', index=False)
 
 dt_r = pd.read_csv('Data/employees.csv')
@@ -142,6 +143,22 @@ dt_r['height_inch'] = dt_r['height']*39.37
 dt_r['height_inch'] = dt_r.height*39.37
 
 # Long form
+
+
+
+address_dt = pd.DataFrame()
+address_id = [1,2,3,4,5]
+address_array = ['1640 Riverside Drive, Hill Valley, California'
+                   ,'344 Clinton St., Apt. 3B, Metropolis, USA'
+                   ,'12 Grimmauld Place, London, UK'
+                   ,'221B Baker Street, London, UK'
+                   ,'1313 Webfoot Walk, Duckburg, Calisota']
+
+address_dt['address_id'] = address_id
+address_dt['address'] = address_array
+
+address_id = [1,2,3,5,5]
+dt_r['address_id'] = address_id
 
 area = 8.0
 if(area < 9) :

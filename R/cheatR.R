@@ -44,8 +44,9 @@ dt_r <- fread('Data/employees.csv')
 
 # Bind new columns
 age <- c(30, 25, 35, 29)
-height <- c(1.7, 1.8, 1.65, 1.85)
 dt_r <- cbind(dt_r, age)
+
+height <- c(1.7, 1.8, 1.65, 1.85)
 dt_r <- cbind(dt_r, height)
 
 # Bind new rows
@@ -65,7 +66,7 @@ summary(dt_r)
 dt_r[!is.na(name)]
 
 ## Removing Duplicates
-unique(address_dt)
+dt_r <- unique(dt_r)
 
 ## Select rows/columns
 ### Rows
