@@ -1,6 +1,10 @@
+#%%
 import numpy as np
 import pandas as pd
 import os
+import re
+
+#%%
 # Vector
 v1 = np.array([2, 3, 5, 7])
 v2 = np.array([3, 5, 1, 4])
@@ -22,6 +26,7 @@ print(m1+m2)
 
 #There are four collection data types in the Python programming language:
 
+#%%
 #List is a collection which is ordered and changeable. Allows duplicate members.
 #Tuple is a collection which is ordered and unchangeable. Allows duplicate members.
 #Set is a collection which is unordered and unindexed. No duplicate members.
@@ -42,7 +47,8 @@ dct
 
 # Data Frame
 df = pd.DataFrame(dct)
-df
+dt_r = df
+#%%
 
 output_dir = os.getcwd() + '/Data'
 if not os.path.exists(output_dir):
@@ -56,6 +62,7 @@ df.to_csv('Data/employees.csv', index=False)
 
 dt_r = pd.read_csv('Data/employees.csv')
 
+#%%
 # Bind new columns
 age = [30, 25, 35, 29]
 dt_r['age']=age
@@ -78,8 +85,9 @@ new_row = {
         'height':[1.6]
     }
 dt_r = pd.concat([dt_r, pd.DataFrame(new_row)], ignore_index=True)
-# Ignore index
 
+# Ignore index
+#%%
 # Data Wrangling
 
 ## Descriptive statistics
@@ -110,7 +118,7 @@ dt_r.loc[dt_r['name']=='Jon', ['name','id']]
 ## Where clause
 ## group by
 ## order by
-
+#%%
 weight = [75,60,70,65,50]
 dt_r['weight'] = weight
 
@@ -126,7 +134,7 @@ dt_r['gender'] = gender
 
 dt_r.loc[dt_r['weight']>60,'gender'].value_counts()
 # Default sorts on frequencies and order in descending
-
+#%%
 # Data Transformation
 
 # Convert height in metres to inches and save as another column
@@ -175,6 +183,40 @@ dt_r.merge(address_dt)
 # LEFT JOIN
 dt_r.merge(address_dt, how='left')
 
+dt_r[dt_r['name'].str.contains("o")]
+dt_r['name'].str.contains("o")
+
+dt_r['name'].str[:1]
+
+dt_r['name']
+
+#Regex
+
+dt_r.loc[dt_r['name'].str.contains('^J'),['name']]
+dt_r.loc[dt_r['name'].str.contains('n$'),['name']]
+
+# Date and Time
+
+birth_date = ['1989-03-01','1994-09-09','1984-07-15','1990-05-01','1988-06-03']
+# String Object
+dt_r['birth_date'] = birth_date
+
+# Date Object
+pd.to_datetime(dt_r['birth_date']).dt.strftime('%Y-%d-%m')
+
+# Days since epoch
+#%%
+pd.to_datetime(dt_r['birth_date']) - pd.datetime(1970,1,1)
+
+#%%
+plt = dt_r.plot.scatter(x='height',y='weight')
+#%%
+
+#%%
+import seaborn as sns
+sns.pairplot(x_vars=["height"], y_vars=["weight"], data=dt_r, hue="gender", size=5)
+#%%
+
 area = 8.0
 if(area < 9) :
     print("small")
@@ -182,3 +224,13 @@ elif(area < 12) :
     print("medium")
 else :
     print("large")
+
+
+dt_r.head(2)       # first five rows
+dt_r.tail(2)       # last five rows
+dt_r.sample(2)    # random sample of rows
+dt_r.shape        # number of rows/columns in a tuple
+dt_r.describe()   # calculates measures of central tendency
+dt_r.info()       # memory footprint and datatypes
+
+#%%

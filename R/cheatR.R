@@ -152,7 +152,7 @@ dt_r[,str_view_all(name,'^J')]
 
 # Date and Time
 
-birth_date <- c('1987-03-01','1990-10-09','2000-07-15','1984-05-01','2001-06-03')
+birth_date <- c('1989-03-01','1994-09-09','1984-07-15','1990-05-01','1988-06-03')
 dt_r <- cbind(dt_r, birth_date)
 summary(dt_r)
 dt_r[,birth_date:= as.IDate(birth_date)]
