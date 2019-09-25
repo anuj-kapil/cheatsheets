@@ -93,16 +93,19 @@ dt_r = pd.concat([dt_r, pd.DataFrame(new_row)], ignore_index=True)
 ## Descriptive statistics
 dt_r.describe(include = 'all')
 
+#%%
 ## Removing NULLS
 dt_r[~dt_r['name'].isnull()]
 dt_r.isnull().values.any()
 
+#%%
 ## Removing Duplicates
 # Add a duplicate
 dt_r = pd.concat([dt_r, pd.DataFrame(new_row)], ignore_index=True)
 
 dt_r = dt_r.drop_duplicates()
 
+#%%
 ## Select rows/columns
 ### Rows
 dt_r.iloc[0:2]
@@ -115,10 +118,11 @@ dt_r[['name','id']]
 ### Rows & Columns
 dt_r.loc[dt_r['name']=='Jon', ['name','id']]
 
+#%%
 ## Where clause
 ## group by
 ## order by
-#%%
+
 weight = [75,60,70,65,50]
 dt_r['weight'] = weight
 
@@ -141,6 +145,7 @@ dt_r.loc[dt_r['weight']>60,'gender'].value_counts()
 
 dt_r['height_inch'] = dt_r['height']*39.37
 
+#%%
 # Drop columns
 
 del dt_r['height_inch']
@@ -150,13 +155,16 @@ dt_r = dt_r.drop(columns=['height_inch'])
 dt_r['height_inch'] = dt_r['height']*39.37
 dt_r['height_inch'] = dt_r.height*39.37
 
+#%%
 # Long form
 dt_r_l = pd.melt(dt_r, id_vars=['name'], value_vars=['id','age','height','weight'])
 
+#%%
 # Wide form
 #pd.crosstab(index=dt_r_l['name'], columns=dt_r_l['variable'], values=dt_r_l['value'], aggfunc='first').reset_index()
 dt_r_w = dt_r_l.pivot_table(values='value', index='name', columns='variable').reset_index()
 
+#%%
 #Data Join and Rolling Join
 
 address_dt = pd.DataFrame()
@@ -174,15 +182,19 @@ address_dt['address'] = address_array
 address_id = [1,2,3,5,5]
 dt_r['address_id'] = address_id
 
+#%%
 # RIGHT JOIN
 dt_r.merge(address_dt, how='right')
 
+#%%
 # INNNER JOIN
 dt_r.merge(address_dt)
 
+#%%
 # LEFT JOIN
 dt_r.merge(address_dt, how='left')
 
+#%%
 dt_r[dt_r['name'].str.contains("o")]
 dt_r['name'].str.contains("o")
 
@@ -195,6 +207,7 @@ dt_r['name']
 dt_r.loc[dt_r['name'].str.contains('^J'),['name']]
 dt_r.loc[dt_r['name'].str.contains('n$'),['name']]
 
+#%%
 # Date and Time
 
 birth_date = ['1989-03-01','1994-09-09','1984-07-15','1990-05-01','1988-06-03']
