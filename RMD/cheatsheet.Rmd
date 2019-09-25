@@ -1,0 +1,520 @@
+---
+title: "cheatsheet"
+always_allow_html: yes
+output: word_document
+---
+
+```{r setup_r, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(data.table)
+library(lubridate)
+library(ggplot2)
+library(stringr)
+library(reticulate)
+virtualenv_create('cs_proj', python = '/Users/anuj/anaconda3/bin/python')
+use_virtualenv('cs_proj')
+```
+```{python setup_python, include=FALSE}
+import sys
+print(sys.version)
+```
+
+## Data Structures
+### R
+
+R offers quite a few data structures
+
+#### Create a vector
+```{r ds}
+# Create a vector (numeric array)
+vec1 <- c(2,3,5,7)
+vec2 <- c(3,5,1,4)
+vec1
+vec2
+vec1 + vec2
+
+```
+
+#### Create a matrix
+
+```{r}
+# Create a matrix
+mtrx1 <- matrix(vec1, nrow = 2, ncol = 2)
+mtrx2 <- matrix(vec2, nrow = 2, ncol = 2)
+mtrx1
+mtrx2
+mtrx1 + mtrx2
+```
+
+
+#### Create a list
+
+```{r}
+# Create a character array
+names_array <- c('Jon','Jane','John','Jean')
+
+# Create a list
+lst <- list(id = vec1, name = names_array)
+
+```
+
+
+#### Create a data-frame
+
+```{r}
+# Create a data.frame
+df <- data.frame(id = vec1, name = names_array)
+
+```
+#### Create a data-table
+
+```{r}
+# Create a data.table
+dt <- data.table(id = vec1, name = names_array)
+```
+
+### Python
+
+Python offers quite a few data structures
+
+#### Create a vector
+```{python}
+import numpy as np
+# Vector
+v1 = np.array([2, 3, 5, 7])
+v2 = np.array([3, 5, 1, 4])
+print(v1)
+print(v2)
+print(v1+v2)
+type(v1)
+```
+
+#### Create a Matrix
+```{python}
+# Matrix
+import numpy as np
+m1 = np.array([2, 3, 5, 7])
+m1 = m1.reshape(2,2)
+m1 = m1.T
+m2 = np.array([[3, 5],[1, 4]])
+m2 = m2.T
+print(m1+m2)
+```
+
+#### Create a List
+```{python}
+#List is a collection which is ordered and changeable. Allows duplicate members.
+#Tuple is a collection which is ordered and unchangeable. Allows duplicate members.
+#Set is a collection which is unordered and unindexed. No duplicate members.
+#Dictionary is a collection which is unordered, changeable and indexed. No duplicate members.
+
+# list
+id = [2,3,5,7]
+name = ['Jon','Jane','John','Jean']
+lst = [id,name]
+lst[0][1]
+```
+
+
+#### Create a data-frame
+
+```{python}
+import numpy as np
+import pandas as pd
+# Dict
+dct = {
+        'id':id,
+        'name':name
+    }
+dct
+
+# Data Frame
+df = pd.DataFrame(dct)
+dt_r = df
+```
+
+## Data Import and Export
+### R
+
+```{r}
+# Check if directory exists, if not, create one
+output_dir <- file.path(getwd(), 'Data')
+
+if (!dir.exists(output_dir)){
+  dir.create(output_dir)
+} else {
+  print("Dir already exists!")
+}
+
+#Write
+fwrite(dt,'Data/employees.csv')
+
+#Read
+dt_r <- fread('Data/employees.csv')
+
+#Print top 2 records 
+head(dt_r, 2)
+```
+### Python
+```{python}
+import os
+import pandas as pd
+# Check if directory exists, if not, create one
+output_dir = os.getcwd() + '/Data'
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
+else:
+    print("Dir already exists!")
+
+#Write
+df.to_csv('Data/employees.csv', index=False)
+
+#Read
+dt_r = pd.read_csv('Data/employees.csv') 
+
+#Print top 2 records
+dt_r.head(2)
+```
+## Data Binding
+### R
+
+```{r}
+# Data Binding
+
+# Bind new columns
+age <- c(30, 25, 35, 29)
+dt_r <- cbind(dt_r, age)
+
+height <- c(1.7, 1.8, 1.65, 1.85)
+dt_r <- cbind(dt_r, height)
+
+# Bind new rows
+# new row is defined as a new data.table
+new_row <- data.table(id = 9, name = 'Jen', age = 31, height = 1.6)
+
+# Must be of same shape
+dt_r <- rbind(dt_r, new_row)
+
+```
+
+### Python
+
+```{python}
+import pandas as pd
+
+# Bind new columns
+age = [30, 25, 35, 29]
+dt_r['age']=age
+
+height = [1.7, 1.8, 1.65, 1.85]
+dt_r['height']=height
+
+# Another way
+# age = {'age':[30, 25, 35, 29]}
+# height = {'height':[1.7, 1.8, 1.65, 1.85]}
+# dt_r = pd.concat([dt_r, pd.DataFrame(age)], axis=1)
+# dt_r = pd.concat([dt_r, pd.DataFrame(height)], axis=1)
+
+# Bind new rows
+# new row is defined as a dict first (each item as a list) and then as pandas dataframe
+new_row = {
+        'id':[9],
+        'name':['Jen'],
+        'age':[31],
+        'height':[1.6]
+    }
+    
+dt_r = pd.concat([dt_r, pd.DataFrame(new_row)], ignore_index=True)
+```
+
+
+## Data Wrangling
+### R
+
+```{r}
+# Data Wrangling
+
+## Descriptive statistics
+summary(dt_r)
+
+## Removing NULLS
+dt_r[!is.na(name)]
+
+## Removing Duplicates
+# Add a duplicate
+dt_r <- rbind(dt_r, new_row)
+dt_r
+
+# Remove the duplicate
+dt_r <- unique(dt_r)
+dt_r
+## Select rows/columns
+### Rows
+dt_r[1:2,]
+dt_r[name=='Jon',]
+
+### Columns
+dt_r[,1:2]
+dt_r[,.(name, id)]
+
+### Rows & Columns
+dt_r[name=='Jon',.(name, id)]
+
+## Where clause
+## group by
+## order by
+
+weight <- c(75,60,70,65,50)
+dt_r <- cbind(dt_r, weight)
+
+gender <- c('M','F','M','F','F')
+dt_r <- cbind(dt_r, gender)
+
+dt_r[weight>60, .N, by =  gender][order(-N)]
+```
+
+### Python
+
+```{python}
+import pandas as pd
+# Data Wrangling
+
+## Descriptive statistics
+dt_r.describe(include = 'all')
+
+## Removing NULLS
+dt_r[~dt_r['name'].isnull()]
+dt_r.isnull().values.any()
+
+## Removing Duplicates
+# Add a duplicate
+dt_r = pd.concat([dt_r, pd.DataFrame(new_row)], ignore_index=True)
+dt_r
+
+# Drop duplicate
+dt_r = dt_r.drop_duplicates()
+dt_r
+
+## Select rows/columns
+### Rows
+dt_r.iloc[0:2]
+dt_r[dt_r['name']=='Jon']
+
+### Columns
+dt_r.iloc[:,0:2]
+dt_r[['name','id']]
+
+### Rows & Columns
+dt_r.loc[dt_r['name']=='Jon', ['name','id']]
+
+## Where clause
+## group by
+## order by
+
+weight = [75,60,70,65,50]
+dt_r['weight'] = weight
+
+gender = ['M','F','M','F','F']
+dt_r['gender'] = gender
+
+# Default sorts on frequencies and order in descending
+dt_r.loc[dt_r['weight']>60,'gender'].value_counts()
+```
+
+# Data Transformation
+### R
+
+```{r}
+# Data Transformation
+
+# Convert height in metres to inches and save as another column
+
+dt_r[, height_inch:=height*39.37]
+
+# Drop a column
+dt_r[, height_inch:= NULL]
+
+# Long form
+dt_r_l <- melt(dt_r, id.vars = 'name', measure.vars = c('id','age','height','weight'))
+
+# Wide form
+dt_r_w <- dcast(dt_r_l, name~variable, value.var = 'value')
+
+summary(dt_r_w)
+```
+
+### Python
+
+```{python}
+import pandas as pd
+
+# Data Transformation
+
+# Convert height in metres to inches and save as another column
+dt_r['height_inch'] = dt_r['height']*39.37
+
+
+# Drop columns
+del dt_r['height_inch']
+
+# or
+# dt_r = dt_r.drop(columns=['height_inch'])
+
+#dt_r['height_inch'] = dt_r['height']*39.37
+dt_r['height_inch'] = dt_r.height*39.37
+
+# Long form
+dt_r_l = pd.melt(dt_r, id_vars=['name'], value_vars=['id','age','height','weight'])
+
+
+# Wide form
+#pd.crosstab(index=dt_r_l['name'], columns=dt_r_l['variable'], values=dt_r_l['value'], aggfunc='first').reset_index()
+dt_r_w = dt_r_l.pivot_table(values='value', index='name', columns='variable').reset_index()
+```
+
+#Data Joins
+###R
+
+```{r}
+#Data Joins
+
+address_id <- c(1,2,3,4,5)
+address_array <- c('1640 Riverside Drive, Hill Valley, California'
+                   ,'344 Clinton St., Apt. 3B, Metropolis, USA'
+                   ,'12 Grimmauld Place, London, UK'
+                   ,'221B Baker Street, London, UK'
+                   ,'1313 Webfoot Walk, Duckburg, Calisota')
+
+address_dt <- data.table(address_id = address_id, address = address_array)
+
+address_id <- c(1,2,3,5,5)
+dt_r <- cbind(dt_r, address_id)
+
+setkey(dt_r, address_id)
+setkey(address_dt, address_id)
+
+# RIGHT JOIN
+dt_r[address_dt]
+
+# INNNER JOIN
+dt_r[address_dt,  nomatch=0]
+
+# LEFT JOIN
+address_dt[dt_r]
+```
+
+###Python
+
+```{python}
+import pandas as pd
+#Data Joins
+address_dt = pd.DataFrame()
+
+address_id = [1,2,3,4,5]
+address_array = ['1640 Riverside Drive, Hill Valley, California'
+                   ,'344 Clinton St., Apt. 3B, Metropolis, USA'
+                   ,'12 Grimmauld Place, London, UK'
+                   ,'221B Baker Street, London, UK'
+                   ,'1313 Webfoot Walk, Duckburg, Calisota']
+
+address_dt['address_id'] = address_id
+address_dt['address'] = address_array
+
+address_id = [1,2,3,5,5]
+dt_r['address_id'] = address_id
+
+# RIGHT JOIN
+dt_r.merge(address_dt, how='right')
+
+# INNNER JOIN
+dt_r.merge(address_dt)
+
+# LEFT JOIN
+dt_r.merge(address_dt, how='left')
+```
+
+
+# String Manipulation
+###R
+
+```{r}
+# String Manipulation
+dt_r[name%like%'o']
+
+dt_r[,.(name, o_exists = str_detect(name, 'o'))]
+
+dt_r[,.(name, first_letter = str_sub(name, 1,1), last_letter = str_sub(name, -1,-1))]
+
+# Regex
+
+dt_r[,str_view_all(name,'n')]
+dt_r[,str_view_all(name,'n$')]
+dt_r[,str_view_all(name,'^J')]
+```
+
+###Python
+
+```{python}
+import pandas as pd
+dt_r[dt_r['name'].str.contains("o")]
+dt_r['name'].str.contains("o")
+
+dt_r['name'].str[:1]
+
+dt_r['name']
+
+#Regex
+
+dt_r.loc[dt_r['name'].str.contains('^J'),['name']]
+dt_r.loc[dt_r['name'].str.contains('n$'),['name']]
+```
+
+# Date and Time
+###R
+
+```{r}
+# Date and Time
+birth_date <- c('1989-03-01','1994-09-09','1984-07-15','1990-05-01','1988-06-03')
+
+dt_r <- cbind(dt_r, birth_date)
+summary(dt_r)
+
+dt_r[,birth_date:= as.IDate(birth_date)]
+summary(dt_r)
+
+dt_r[,birth_date:= as.numeric(birth_date)]
+summary(dt_r)
+```
+
+###Python
+
+```{python}
+import pandas as pd
+# Date and Time
+
+birth_date = ['1989-03-01','1994-09-09','1984-07-15','1990-05-01','1988-06-03']
+
+# String Object
+dt_r['birth_date'] = birth_date
+
+# Date Object
+pd.to_datetime(dt_r['birth_date']).dt.strftime('%Y-%d-%m')
+
+# Days since epoch
+pd.to_datetime(dt_r['birth_date']) - pd.datetime(1970,1,1)
+```
+
+# Data Visualization
+###R
+
+```{r}
+# Data Visualization
+ggplot(dt_r, aes(x=height, y=weight, color = gender))+
+  geom_point()
+```
+
+###Python
+```{python}
+import seaborn as sb
+sb.pairplot(x_vars=["height"], y_vars=["weight"], data=dt_r, hue="gender", size=5)
+```
