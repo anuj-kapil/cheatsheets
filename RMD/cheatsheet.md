@@ -419,7 +419,6 @@ customers_dt.head(2)
     ## 0   2   Jon
     ## 1   3  Jane
 
-<br>
 
 ## Data Binding
 
@@ -1449,7 +1448,7 @@ ggplot(customers_dt,  aes(x=height,  y=weight,  color = gender))+
   geom_point()
 ```
 
-![](cheatsheet_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
+![](cheatsheet_files/figure-gfm/unnamed-chunk-24-1.png)
 
 ### Python
 
@@ -1481,4 +1480,4 @@ sb.pairplot(x_vars=["height"],  y_vars=["weight"],  data=customers_dt,  hue="gen
 plt.show()
 ```
 
-![](cheatsheet_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
+![](cheatsheet_files/figure-gfm/unnamed-chunk-25-1.png)
