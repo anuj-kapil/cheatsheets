@@ -24,7 +24,9 @@ of the following types:
 
 A vector is used to apply mathemathical techniques like vector algebra
 and are quite often used to implement mathematical and statistical
-procedures. <br>
+procedures. 
+
+<br>
 
 ``` r
 # Create a vector (numeric)
