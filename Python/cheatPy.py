@@ -197,11 +197,16 @@ dt_r.merge(address_dt)
 dt_r.merge(address_dt, how='left')
 
 #%%
+dt_r["name"].str.replace('o', 'e')
+dt_r["name"]
+dt_r[dt_r['name'].str.
 dt_r[dt_r['name'].str.contains("o")]
 dt_r['name'].str.contains("o")
+pd.DataFrame({"name":dt_r["name"], "o_exists":dt_r["name"].str.contains("o")})
+
+pd.DataFrame({'name':dt_r['name'],'first_letter':dt_r['name'].str[:1],'last_letter':dt_r['name'].str[-2:-1]})
 
 dt_r['name'],dt_r['name'].str[:1],dt_r['name'].str[-2:-1]
-
 
 
 dt_r['name']
