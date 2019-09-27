@@ -47,6 +47,8 @@ dct
 
 # Data Frame
 df = pd.DataFrame(dct)
+
+df
 dt_r = df
 #%%
 
@@ -59,7 +61,7 @@ else:
 
 
 df.to_csv('Data/employees.csv', index=False)
-
+df
 dt_r = pd.read_csv('Data/employees.csv')
 
 #%%
@@ -198,7 +200,9 @@ dt_r.merge(address_dt, how='left')
 dt_r[dt_r['name'].str.contains("o")]
 dt_r['name'].str.contains("o")
 
-dt_r['name'].str[:1]
+dt_r['name'],dt_r['name'].str[:1],dt_r['name'].str[-2:-1]
+
+
 
 dt_r['name']
 
@@ -213,13 +217,15 @@ dt_r.loc[dt_r['name'].str.contains('n$'),['name']]
 birth_date = ['1989-03-01','1994-09-09','1984-07-15','1990-05-01','1988-06-03']
 # String Object
 dt_r['birth_date'] = birth_date
+dt_r.birth_date.dtype
 
+dt_r.birth_date.dtypes
 # Date Object
-pd.to_datetime(dt_r['birth_date']).dt.strftime('%Y-%d-%m')
+dt_r['birth_date'] = pd.to_datetime(dt_r['birth_date'])
 
 # Days since epoch
 #%%
-pd.to_datetime(dt_r['birth_date']) - pd.datetime(1970,1,1)
+dt_r['birth_date'] = pd.to_datetime(dt_r['birth_date'])- pd.datetime(1970,1,1)
 
 #%%
 plt = dt_r.plot.scatter(x='height',y='weight')
@@ -247,3 +253,7 @@ dt_r.describe()   # calculates measures of central tendency
 dt_r.info()       # memory footprint and datatypes
 
 #%%
+
+type(dt_r.age)
+
+dt_r.birth_date.dtype
