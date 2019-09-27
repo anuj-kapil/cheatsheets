@@ -26,8 +26,6 @@ A vector is used to apply mathemathical techniques like vector algebra
 and are quite often used to implement mathematical and statistical
 procedures. 
 
-<br>
-
 ``` r
 # Create a vector (numeric)
 vec_1 <- c(2,  3,  5,  7)
@@ -54,7 +52,7 @@ print(vec_1 + vec_2)
     ## [1]  5  8  6 11
 
 Notice that the addition of two numeric vectors is the sum of individual
-numeric elements of each vector at the corresponding index. <br>
+numeric elements of each vector at the corresponding index.
 
 #### Matrix in R
 
@@ -63,7 +61,7 @@ similar to vector in the sense that they also store same data type
 elements but matrices has dimensions and vectors have only one
 dimension. They are useful in implementing the matrix algebra. They are
 commonly used for linear transformations. Below code creates a 2
-dimensional matrix containing 2 rows and 2 columns. <br>
+dimensional matrix containing 2 rows and 2 columns.
 
 ``` r
 # Create a matrix
@@ -98,7 +96,7 @@ print(mtrx_1 + mtrx_2)
 
 Notice that the addition of two matrices is the sum of individual
 numeric elements of each matrix at the corresponding 2 dimensional
-index. <br>
+index.
 
 #### List in R
 
@@ -106,7 +104,7 @@ Lists are similar to vector in a way that they are collection of
 elements, but with a difference that the elements can be a mixture of
 different data types. They are helpful when we need to bind together
 mulitple objects, to pass them as arguments to functions or when we need
-to return multiple objects from the functions. <br>
+to return multiple objects from the functions.
 
 ``` r
 # Create a mixed data type list
@@ -147,7 +145,7 @@ A data frame is a tabular data structure in R and is the most commonly
 used data structure. It can be thought of as a rectangular list in which
 data is structured in rows and columns. It is infact a special type of
 list. For most of the statistical analysis, R datasets are created as
-data-frame. <br>
+data-frame.
 
 ``` r
 # Create a data.frame
@@ -166,7 +164,7 @@ head(customers_df,  2)
 A data-table is essentially a data-frame but with added features. A
 data-frame is part of base R, while data-table was developed as an
 extension of data-frame. The key additional features built into
-data-table are speed of access and a cleaner syntax. <br>
+data-table are speed of access and a cleaner syntax.
 
 ``` r
 # Create a data.table
@@ -200,7 +198,7 @@ has basically four types of built-in data structures:
 multi-dimensionals arrays and matrices. It has large collection
 functions specially built for mathematical operations. A vector in
 Python is basically a one dimensional **numpy** array. Operations on
-vectors are pretty much similar to R. <br>
+vectors are pretty much similar to R.
 
 ``` python
 import numpy as np
@@ -240,7 +238,7 @@ has been used. It’s just because the Python default reshapes the 1-d
 array row-wise while R reshapes the 1-d array column-wise. R’s default
 reshaping can be changed to row-wise as well. In this case, we have just
 taken the transpose of the 2x2 array to match with R version of the
-code. <br>
+code.
 
 ``` python
 import numpy as np
@@ -281,7 +279,7 @@ print(mtrx_1 + mtrx_2)
 Lists in Python are similar to R except that the named lists in Python
 are actually called ‘dictionary’ type data structures. Dictionary does
 not allows duplicate members in Python while a list allows duplicates in
-both Python and R. <br>
+both Python and R.
 
 ``` python
 # Create a mixed data type list
@@ -309,7 +307,7 @@ manipulation and analysis. It provides a similar data structure like R
 data frame with built in indexation. It provides various functions for
 data manipulation, reshaping, slicing, grouping, merging, time-series
 and lot more. **pandas** dataframes can be initialized using a
-dictionary type object. <br>
+dictionary type object.
 
 ``` python
 import numpy as np
@@ -353,7 +351,7 @@ file on a local disk. The code ensures that the local directory exists
 before writing the contents of data.table to a file. ‘fwrite’ is a
 function from **data.table** library which provides a fast function to
 write large data.tables to disk. ‘fread’ is a similar fast function to
-read large files, stored on a disk, into the memory. <br>
+read large files, stored on a disk, into the memory.
 
 ``` r
 # Check if directory exists,  if not,  create one
@@ -390,7 +388,7 @@ contents to a csv file on disk. ‘read\_csv’ is used to import data from
 disk into memory. Note that the name of the imported dataframe has been
 suffixed with ‘dt’ just to be in sync with R data.table naming
 convention of a data.table object. It is essentially a **pandas**
-dataframe denoted by ‘dt’ suffixed name. <br>
+dataframe denoted by ‘dt’ suffixed name.
 
 ``` python
 import os
@@ -440,8 +438,6 @@ case you will bind all of them togethers rows by rows.
 Example below adds additional information about customer, ‘age’ and
 ‘height’ of customer. Also, another customer is added as a new row to
 the original customer data.table.
-
-<br>
 
 ``` r
 # Data Binding
@@ -495,7 +491,7 @@ In Python, the assignment operator binds new columns and name of the new
 column is specified by the name enclosed in the square brackets of the
 **pandas** dataframe. If the column with the same name already exists,
 then the column gets updated otherwise it gets created. Adding a new row
-can be done using ‘concat’ funtion of **pandas** library. <br>
+can be done using ‘concat’ funtion of **pandas** library.
 
 ``` python
 import pandas as pd
@@ -572,7 +568,6 @@ to select or what functions to apply on the selected columns, ‘by’ is
 used to group together columns to calculate aggregate functions. Example
 below shows how to count all customers whose weight is greater than 60
 grouped into males/female and order by descending count of customers.
-<br>
 
 ``` r
 # Data Wrangling
@@ -702,7 +697,6 @@ method is to subset rows/columns using index. ‘value\_counts’ is a
 method to aggregate counts across the selected columns. In the example
 below it counts all the customers whose weight is greater than 60
 grouped into males/female and order by descending count of customers.
-<br>
 
 ``` python
 import pandas as pd
@@ -870,7 +864,7 @@ and store as an additional information. ‘melt’ is a function from
 to a long format. In the example, the wide format variable ‘id’, ‘age’,
 ‘height’, ‘weight’ are collapsed into a measure/value pair for each
 ‘id’, ‘name’ (subject). ‘dcast’ is the another function to convert a
-long form data to a wide form data. <br>
+long form data to a wide form data.
 
 ``` r
 # Data Transformation
@@ -913,7 +907,7 @@ head(customers_dt_w, 2)
 to delete a column in **pandas** dataframe. ‘melt’ function in
 **pandas** transpose the data from a wide form to a long form.
 ‘pivot\_table’ method does the opposite of melt and helps to transpose
-data from long form to wide form. <br>
+data from long form to wide form.
 
 ``` python
 import pandas as pd
@@ -982,7 +976,7 @@ address details will be in the resulting joined dataset whether or not
 that matches with the customer details dataset rows and only the
 matching rows from the customer details table. An inner join is a join
 where the resulting joined dataset contains only the matching rows from
-both the datasets. <br>
+both the datasets.
 
 ``` r
 # Define addresses dataset
@@ -1065,7 +1059,7 @@ the column names as functiom arguments on which we want to apply the
 join. By default, it joins on the matching column names. Another
 argument that we can specify is ‘how’ we want to apply the join. Default
 is ‘inner’ join and we can change that to be either ‘left’ or ‘right’
-join. <br>
+join.
 
 ``` python
 import pandas as pd
@@ -1156,7 +1150,7 @@ to find/replace/filter a string pattern. Example below filters the names
 that starts with ‘J’ and another example with filters names that ends
 with ‘n’. ‘^’ is the regular expression that signifies the beginning of
 the string characters and ‘$’ signifies the end of the string
-characters. <br>
+characters.
 
 ``` r
 # String Replacement
@@ -1235,7 +1229,7 @@ string. ‘str.contains’ is used to detect and filter the matching
 substring patterns. Extracting the substring is done by speciying the
 ‘str’ string index. Similar to R, ‘^’ is the regular expression that
 signifies the beginning of the string characters and ‘$’ signifies the
-end of the string characters. <br>
+end of the string characters.
 
 ``` python
 import pandas as pd
@@ -1333,7 +1327,7 @@ can use the **data.table** packages ‘as.IDate’ function to easily
 convert them to a date format. ‘as.IDate’ can also convert the days
 since epoch to a date format. Dates are useful in R to peform
 time-series analysis. **lubridate** is another useful library in R
-packed with powerful date manipulation functions. <br>
+packed with powerful date manipulation functions.
 
 ``` r
 # Date and Time
@@ -1370,7 +1364,7 @@ class(customers_dt$birth_date)
 **pandas** provide powerful functions for time-series functionality.
 ‘to\_datetime’ converts the dates from string format to datetime.
 Subtracting another date (1970-01-01) from the original date returns the
-days since 1970-01-01. <br>
+days since 1970-01-01.
 
 ``` python
 import pandas as pd
