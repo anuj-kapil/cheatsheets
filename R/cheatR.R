@@ -37,15 +37,16 @@ if (!dir.exists(output_dir)){
 fwrite(dt,'Data/employees.csv')
 
 dt_r <- fread('Data/employees.csv')
-dt_r <- dt
+
 # Parsing web-pages
 
 # Data Binding
 
 # Bind new columns
 age <- c(30, 25, 35, 29)
-height <- c(1.7, 1.8, 1.65, 1.85)
 dt_r <- cbind(dt_r, age)
+
+height <- c(1.7, 1.8, 1.65, 1.85)
 dt_r <- cbind(dt_r, height)
 
 # Bind new rows
@@ -65,7 +66,7 @@ summary(dt_r)
 dt_r[!is.na(name)]
 
 ## Removing Duplicates
-unique(address_dt)
+dt_r <- unique(dt_r)
 
 ## Select rows/columns
 ### Rows
@@ -83,10 +84,10 @@ dt_r[name=='Jon',.(name, id)]
 ## group by
 ## order by
 
-weight <- c(60,65,50,70,75)
+weight <- c(75,60,70,65,50)
 dt_r <- cbind(dt_r, weight)
 
-gender <- c('F','F','F','M','M')
+gender <- c('M','F','M','F','F')
 dt_r <- cbind(dt_r, gender)
 
 dt_r[weight>60, .N, by =  gender][order(-N)]
@@ -101,12 +102,12 @@ dt_r[, height_inch:=height*39.37]
 dt_r[, height_inch:= NULL]
 
 # Long form
-
-dt_r <- melt(dt_r, id.vars = 'name', measure.vars = c('id','age','height','height_inch'))
+dt_r_l <- melt(dt_r, id.vars = 'name', measure.vars = c('id','age','height','weight'))
 
 # Wide form
-dt_r <- dcast(dt_r, name~variable, value.var = 'value')
+dt_r_w <- dcast(dt_r_l, name~variable, value.var = 'value')
 
+summary(dt_r_w)
 #Data Join and Rolling Join
 
 address_id <- c(1,2,3,4,5)
@@ -124,16 +125,19 @@ dt_r <- cbind(dt_r, address_id)
 setkey(dt_r, address_id)
 setkey(address_dt, address_id)
 
+# RIGHT JOIN
 dt_r[address_dt]
 merge(dt_r,address_dt, all.x=TRUE)
 
+# INNNER JOIN
 dt_r[address_dt,  nomatch=0]
+# LEFT JOIN
 address_dt[dt_r]
 
 # String Manipulation
+dt_r[name%like%'o']
 str_detect()
 dt_r[,.(name, o_exists = str_detect(name, 'o'))]
-
 
 dt_r[,.(name, first_letter = str_sub(name, 1,1), last_letter = str_sub(name, -1,-1))]
 
@@ -148,7 +152,7 @@ dt_r[,str_view_all(name,'^J')]
 
 # Date and Time
 
-birth_date <- c('1987-03-01','1990-10-09','2000-07-15','1984-05-01','2001-06-03')
+birth_date <- c('1989-03-01','1994-09-09','1984-07-15','1990-05-01','1988-06-03')
 dt_r <- cbind(dt_r, birth_date)
 summary(dt_r)
 dt_r[,birth_date:= as.IDate(birth_date)]
